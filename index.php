@@ -7,32 +7,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset='utf-8'>
     <title></title>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
     <script>
-
+        $("#quick_reply").submit(function (){
+            alert("hello");
+        });
         function Validate()
         {
             var form = $("#commentform");
-            var author = form.find("input[name=author]").val();
             var comment = form.find("textarea[name=message]").val();
-            var email = form.find("input[name=email]").val();
             //kapowCheck
             content = $("#comment").val();
             metaCAPTCHA.execute( content);
             return false;
         }
 
-    </script>
+<!--    </script>-->
 
 
 </head>
 <body>
 
 <form id="commentform" method="POST" name="commentform"
-      action="process.php" enctype="multipart/form-data" onsubmit="Validate(); return false;">
-	<big><strong> Simple Form </strong></big>
+      action="process.php" enctype="multipart/form-data" onsubmit="Validate(); return false;" >
+	<strong> Simple Form </strong>
 	<p>
 		<input id="author" type="text" name="author" value="John">
 	</p>
@@ -43,7 +44,7 @@
 	<br>
 
 	<p>
-		<input id="comment" type="text" name="comment" value="This is awesome world!">
+		<textarea id="comment" type="text" name="comment" value="This is awesome world!"></textarea>
 	</p>
 	<p>
 		<input id="submit" type="submit" value="Submit">
@@ -54,9 +55,9 @@
 </form>
     <?php
     include_once "metacaptcha/metacaptcha_lib.php"; //Link to metacaptcha_lib.php
-    $processUrl="metacaptcha.php";      //Link to metacaptcha.php created in step 5
     $formID="commentform";
-    echo initialize_metacaptcha($processUrl, $formID);
+    $lib_path = "metacaptcha/metacaptcha.php";
+    echo initialize_metacaptcha($lib_path, $formID);
     ?>
 
 </body>

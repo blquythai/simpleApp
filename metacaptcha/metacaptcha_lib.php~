@@ -1,6 +1,6 @@
 <?php
 //Your keys go here
-define('PRIVATE_KEY','9R4VoG2IUkYlNIBqfxf9'); //PRIVATE KEY
+define('PRIVATE_KEY','YX0cr7HCrQsPWjsiIXaH'); //PRIVATE KEY
 define('PUBLIC_ID','51c39de416d3121603000000'); //PUBLIC ID
 
 define('INTERVAL', 60*5); //interval  where two keys can exist at the same time.
@@ -13,7 +13,7 @@ define('REFRESHING_TIME', 24 * 3600);
  * @return metaCATPCHA initialization's html and javascript code
 */
 
-function initialize_metacaptcha($processPath, $formID=null)
+function initialize_metacaptcha( $processPath, $formID=null)
 {
     $html = '<script src="//rabbit.cs.pdx.edu/headwinds_new/application/js/metacaptcha.js"></script>';
     if ($formID===null)
@@ -32,13 +32,8 @@ function initialize_metacaptcha($processPath, $formID=null)
  * @param  $msg Content of the message
  * @return the object containing the puzzle request message
 */
-function metacaptcha_verify($metacaptchaField, $message)
+function metacaptcha_verify($metacaptchaField, $msg)
 {
-    echo $message;
-
-    $message = process_string($message);
-    echo $message;
-
     try
     {
         //extract data from object
@@ -46,7 +41,7 @@ function metacaptcha_verify($metacaptchaField, $message)
         $ts =$metaCAPTCHA->ts;
         $te = $metaCAPTCHA->te;
         //calculate S1
-        $C = $ts.$message;
+        $C = $ts.$msg;
         $ID= PUBLIC_ID;
         $S2 = $metaCAPTCHA->S2;
         //verify
@@ -70,15 +65,13 @@ function metacaptcha_verify($metacaptchaField, $message)
 * @param  $msg
 * @return the object containing the puzzle request message
 */
-function _metacaptcha_return_initial_cookie($message){
-
-    $message =  process_string($message);
+function _metacaptcha_return_initial_cookie($msg){
     $Ks = getKsFromPK(PRIVATE_KEY);
     $ip = preg_replace( '/[^0-9., ]/', '', $_SERVER['REMOTE_ADDR'] );
-    $S = 0; // Local score
+    $S = 10; // Local score
     $ts = time();
     //prepare data for HMAC
-    $C = $ts.$message;
+    $C = $ts.$msg;
     $ID= PUBLIC_ID;
     $S1 = $C.$ID.hash_hmac("sha256",$C.$ID, $Ks);
     return array(
@@ -88,7 +81,7 @@ function _metacaptcha_return_initial_cookie($message){
         'comment_author_ip' => $ip,
         'comment_date' => $ts,
         'comment_author_url' => 'http://google.com',
-        'comment_content' => $message,
+        'comment_content' => $msg,
         'api_key' => PUBLIC_ID
     );
 }
@@ -127,11 +120,4 @@ function getKsFromPK($private_key, $previous = false)
     $concat = (intval( $ts /REFRESHING_TIME) - $k). $private_key ;
     return hash ('sha256', $concat);
     //return $concat;
-}
-
-function process_string($message)
-{
-    $message =  (preg_replace('/\s+/', ' ', $message));
-    $message =utf8_encode( preg_replace("/[^\w\d ]/ui", ' ', $message));
-    return $message;
 }
