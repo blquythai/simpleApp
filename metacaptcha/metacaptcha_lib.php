@@ -15,14 +15,14 @@ define('REFRESHING_TIME', 24 * 3600);
 
 function initialize_metacaptcha($processPath, $formID=null)
 {
-    $html = '<script src="//rabbit.cs.pdx.edu/headwinds_new/application/js/metacaptcha.js"></script>';
+    $html = '<script src="//api.metacaptcha.com/application/js/metacaptcha.js"></script>';
     if ($formID===null)
     {
         $html.= '<input type="hidden" name="metacaptchaField" id="metacaptchaField" value="" />';
         $html.= "<script> initialize_metacaptcha('$processPath');</script>";
     }
     else
-        $html.= "<script>initialize_metacaptcha('$processPath','$formID');</script>";
+        $html.= "<script>$(document).ready( function () {initialize_metacaptcha('$processPath','$formID');});</script>";
     return $html;
 }
 

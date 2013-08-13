@@ -1,9 +1,3 @@
-<?php
-//    if (isset($_REQUEST['author']))
-//    {
-//        var_dump($_REQUEST);
-//    }
-//?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,20 +6,18 @@
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
     <script>
-        $("#quick_reply").submit(function (){
+        $("#register_form").submit(function (){
             alert("hello");
         });
         function Validate()
         {
             var form = $("#commentform");
-            var comment = form.find("textarea[name=message]").val();
-            //kapowCheck
-            content = $("#comment").val();
-            metaCAPTCHA.execute( content);
+            var comment = form.find("textarea[name=comment]").val();
+            metaCAPTCHA.execute(comment);
             return false;
         }
 
-<!--    </script>-->
+    </script>
 
 
 </head>
@@ -42,7 +34,6 @@
 		<input id="email" type="text" name="email" value="tester@test.com">
 	</p>
 	<br>
-
 	<p>
 		<textarea id="comment" type="text" name="comment" value="This is awesome world!"></textarea>
 	</p>

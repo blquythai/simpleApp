@@ -1,5 +1,5 @@
 <?php
- require_once("metacaptcha/metacaptcha_lib.php");
+    require_once("metacaptcha/metacaptcha_lib.php");
     $message = $_POST['comment'];  //content of the message
     $verify = metacaptcha_verify($_POST['metacaptchaField'],$message);
     //the CAPTCHA is correct
