@@ -15,7 +15,7 @@ define('REFRESHING_TIME', 24 * 3600);
 
 function initialize_metacaptcha($processPath, $formID=null)
 {
-    $html = '<script src="//api.metacaptcha.com/application/js/metacaptcha.js"></script>';
+    $html = '<script src="//api3.test.metacaptcha.com/application/js/metacaptcha.js"></script>';
     if ($formID===null)
     {
         $html.= '<input type="hidden" name="metacaptchaField" id="metacaptchaField" value="" />';
